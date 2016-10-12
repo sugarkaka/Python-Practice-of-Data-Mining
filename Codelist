@@ -75,3 +75,58 @@ import pandas as pd
 catering_sale = 'catering_sale.xls'
 data = pd.read_excel(catering_sale, index_col = u'日期')
 data.describe()
+
+import matplotlib.pyplot as plt
+plt.rcParams['font.sans-serif'] =  ['SimHei']
+plt.rParams['axes.unicode_minus'] = False
+
+plt.figure()
+p = data.boxplot()
+x = p['fliers'][0].get_xdata()
+y = p['fliers'][0].get_ydata()
+y.sort()
+
+for i in range(len(x)):
+    if i > 0:
+	    plt.annotate(y[i], xy = (x[i], y[i]), xytext = (x[i] + 0.05 - 0.8/y[i] - y[i-1], y[i]))
+    else:
+	    plt.annotate(y[i], xy = (x[i], y[i]), xytext = (x[i] + 0.08, y[i]))
+plt.show()
+
+# codelist 8
+#-*- coding: utf-8 -*-
+from __future__ import print_function
+import pandas as pd
+
+catering_sale = 'catering_sale.xls'
+data = pd.read_excel(catering_sale, index_col = u'日期')
+data = data[(data[u'销量'] > 400) and (data[u'销量'] < 5000)]
+statistics = data.describe()
+
+statistics.loc['range'] = statistics.loc['max'] - statistics.loc['min']
+statistics.loc['var'] = statistics.loc['std'] / statistics.loc['mean']
+statistics.loc['dis'] = statistics.loc['75%'] - statistics.loc['25%']
+print statistics
+
+# codelist 9
+#-*- coding: utf-8 -*-
+from __future__ import print_function
+import pandas as pd
+
+dish_profit = 'catering_dish_profit.xls'
+data = pd.read_excel(dish_profit, index_col = u'菜品名')
+data = data[u'盈利'].copy()
+
+import matplotlib.pyplot as plt
+plt.rcParams['font.sans-serif'] =  ['SimHei']
+plt.rParams['axes.unicode_minus'] = False
+
+plt.figure()
+data.plot(kind = 'bar')
+plt.ylabel =(u'盈利（元）')
+p = 1.0 * data.cumsum()/data.sum()
+p.plot(color = 'r', secondary_y = True, style = '-o', linewidth = 2)
+plt.annotate(format(p[6], '.4%'), xy = (6, p[6]), xytext = (6 * 0.9, p[6]* 0.9), 
+    arrowprops = dict(arrowstyle = '->', connectionstyle = 'arc3, rad =.2'))
+plt.ylabel(u'盈利（比例）')
+plt.show()
