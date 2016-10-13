@@ -173,3 +173,19 @@ import numpy as np
 x = np.random.randn(1000)
 plt.hist(x, 10)
 plt.show()
+
+# codelist 14
+import matplotlib.pyplot as plt
+import numpy as np
+x = np.random.randn(1000)
+D= pd.DataFrame(x, x + 1).T
+D.plot(kind = 'bar')
+plt.show()
+
+# codelist 15
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+y = pd.Series(np.sin(np.arange(10)))
+y.plot(yerr = error)
+plt.show()
