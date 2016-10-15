@@ -190,3 +190,4 @@ y = pd.Series(np.sin(np.arange(10)))
 y.plot(yerr = error)
 plt.show()
 # 小妞妞
+理论精通
