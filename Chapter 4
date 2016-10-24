@@ -20,7 +20,7 @@ for i in data.columns:
 
 data.to_excel(output_file)
 
-# codelist2
+# codelist 2
 # 数据规范化
 import pandas as pd
 datafile = 'normalization_data.xls'
@@ -33,3 +33,43 @@ data = pd.read_excel(datafile, header = None)
 # 小数定标规范化
 data/10**np.ceil(np.log10(data,abs().max()))
 
+# codelist 3
+# 数据规范化
+import pandas as pd
+datafile = 'catering.xls'
+data = pd.read_excel(datafile)
+data = data[u'肝气郁结症系数'].copy()
+k = 4
+
+# 等宽离散化
+d1 = pd.cut(data, k, labels = range(k))
+
+# 等频率离散化
+w = [1.0 * i/k for i in range(k+1)]
+w = data.describe(percentiles = w)[4: 4 + k + 1]
+w[0] = w[0] * (1 -1e - 10)
+
+# 聚类分析离散化
+from sklear.cluster import KMeans
+kmodel = KMeans(n_clusters = k, n_jobs = 4) #建立模型，n_jobs 是cpu数
+kmodel.fit(data.reshape(len(data), 1))
+c = pd.DataFrame(kmodel.cluster_centers_).sort(0) #输出聚类中心，并且排序
+w = pd.rolling_mean(c, 2).iloc[1:]
+w = [0] + list(w[0]) + [data.max()]
+d3 = pd.cut(data, w, labels = range(k))
+
+def cluster_plot(d, k):
+    import matplotlib.pyplot as plt
+    plt.rcParams['font.sans-serif'] =  ['SimHei']
+    plt.rParams['axes.unicode_minus'] = False
+	
+	plt.figure(figsize = (8, 3))
+	for j in range(0, k):
+	    plt.plot(data[d == j], [j for i in d[d == j]], 'o')
+	
+	plt.ylim(-0.5, k-0.5)
+	return plt
+
+cluster_plot(d1, k).show()
+cluster_plot(d2, k).show()
+cluster_plot(d3, k).show()
