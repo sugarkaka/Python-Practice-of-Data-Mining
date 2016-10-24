@@ -73,3 +73,28 @@ def cluster_plot(d, k):
 cluster_plot(d1, k).show()
 cluster_plot(d2, k).show()
 cluster_plot(d3, k).show()
+
+# codelist 4
+# 属性构造
+import pandas as pd
+inputfile = 'catering.xls'
+outputfile = 'catered.xls'
+
+data = pd.read_excel(inputfile)
+data[u'损耗率'] = data(u'供入电量') - data(u'输出电量')
+data.to_excel(outputfile, index = False)
+
+# codelist 5
+# 主成份分析降维代码
+import pandas as pd
+inputfile = 'catering.xls'
+outputfile = 'catered.xls'
+
+data = pd.read_excel(inputfile, header = None)
+
+from sklearn.decomposition import PCA
+pca = PCA()
+pca.fit(data)
+pca.compomemts_ #返回各个模型的特征向量
+pca.explained_variance_ratio_
+
