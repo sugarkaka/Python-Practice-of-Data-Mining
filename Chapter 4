@@ -98,3 +98,4 @@ pca.fit(data)
 pca.compomemts_ #返回各个模型的特征向量
 pca.explained_variance_ratio_
 
+aa
