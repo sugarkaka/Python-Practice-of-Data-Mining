@@ -1,1 +1,22 @@
-逻辑回归
+# 逻辑回归代码
+#-*- coding: utf-8 -*-
+import pandas as pd
+
+filename = 'bankloan.xls'
+data = pd.read_excel(filename)
+x = data.iloc[:, :8].as_matrix()
+y = data.iloc[:, :8].as_matrix()
+
+from sklearn.linear_model import LogisticRegression as LR
+from sklearn.linear_model import RandomizedLogisticRegression as RLR
+rlr = RLR() # 建立随即逻辑回归模型
+rlr.fit(x, y) # 训练模型
+rlr.get_support() # 获取特征筛选结果
+print(u'通过逻辑回归模型帅选特征结束')
+print(u'有效特征为: %s' % ','.join(data.columns[rar.get_support()]))
+x = data[data.columns[rlr.get_support()]]].as_matrix() # 筛选好特征
+
+lr = LR() # 建立逻辑回归模型
+lr.fit(x, y) # 用筛选后的特征数据来写训练模型
+print(u'逻辑回归模型训练结束')
+print(u'模型的平均正确率为: %s' % lr.score(x, y))
