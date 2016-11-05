@@ -24,3 +24,4 @@ print(u'模型的平均正确率为: %s' % lr.score(x, y))
 
 国贸到了
 fata
+fsfs
