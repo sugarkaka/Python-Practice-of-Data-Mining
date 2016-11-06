@@ -52,3 +52,10 @@ from sklearn.externals.six import StringIO
 with open('tree.dot', 'w') as f:
     f = export_graphviz(dtc, feature_names = x.columns, out_file = f)
 
+# 运行代码后，将会输出一个tree.dot文件，指定中文字体
+digraph Tree {
+edge [fontname = 'SimHei']
+node [fontname = 'SimHei']
+0 [label = '是否周末 <= 0.0000\nentropy = 0.99999\nsamples = 34'. shape = 'box'}
+
+
