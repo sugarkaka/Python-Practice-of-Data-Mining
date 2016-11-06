@@ -62,4 +62,36 @@ node [fontname = 'SimHei']
 dot -Tpdf tree.dot -o tree.pdf
 dot -Tpng tree.dot -o tree.pdf
 
+# 使用神经网络预测销量高低
+#-*- coding: utf-8 -*-
+import pandas as pd
+
+# 参数初始化
+filename = 'sales_data'
+data = pd.read_excel(filename, index_col = u'序号') # 导入数据
+
+# 数据是类别标签，需要转化为数据
+# 用1来表示好，-1表示差
+data[data == u'好'] = 1
+data[data == u'是'] = 1
+data[data == u'高'] = 1
+data[data != 1] = 0
+x = data.iloc[:, :3].as_matrix().astype(int)
+y = data.iloc[:, :3].as_matrix(),astype(int)
+
+from keras.models import Sequential
+from keras.layers.core import Dense, Activation
+
+model = Sequential()
+model.add(Dense(3, 10))
+model.add(Activation('relu')) # 使用relu函数作为激活函数
+model.add(Dense(10, 1))
+model.add(Activation('sigmond')) # 使用sigmond函数作为激活函数
+
+model.compiole(loss = 'binart_crossentropy', optimizer = 'adam', class_mode = 'binary')
+model.fit(x, y, nb_epoch = 1000, batch_size = 10)
+yp = model.predict_classes(x).reshape(len(y))
+
+from cm_plot import * 
+cm_plot(y, yp).show()
 
