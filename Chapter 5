@@ -58,4 +58,8 @@ edge [fontname = 'SimHei']
 node [fontname = 'SimHei']
 0 [label = '是否周末 <= 0.0000\nentropy = 0.99999\nsamples = 34'. shape = 'box'}
 
+# 保存为UTF-8模式，在Graphviz中以如下方式编译：
+dot -Tpdf tree.dot -o tree.pdf
+dot -Tpng tree.dot -o tree.pdf
+
 
